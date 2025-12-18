@@ -1,0 +1,120 @@
+name: Angular Agent Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  rag-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout del repo que se está revisando
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2️⃣ Node.js para los scripts .mjs
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 3️⃣ Construir payload desde el PR
+      - name: Build PR payload
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXAM_LEVEL: mid            # junior | mid | senior
+          MAX_FILES: "10"
+          MAX_TOTAL_CHARS: "200000"
+          ALLOWED_EXT: ".ts,.html,.scss,.md"
+        run: |
+          node .github/scripts/agent-review/build-payload.mjs > payload.json
+          echo "Payload generated:"
+          jq '.files | length' payload.json
+
+      # 4️⃣ Llamar a tu Angular Review Agent (RAG + Pinecone)
+      - name: Call Angular Review Agent
+        env:
+          REVIEW_AGENT_URL: ${{ secrets.REVIEW_AGENT_URL }}
+          REVIEW_AGENT_TOKEN: ${{ secrets.REVIEW_AGENT_TOKEN }}
+        run: |
+          curl -sS -X POST "$REVIEW_AGENT_URL/github/pr-review" \
+            -H "Authorization: Bearer $REVIEW_AGENT_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            -o result.json
+
+          echo "Agent response:"
+          jq '.' result.json
+
+      # 5️⃣ Publicar o actualizar comentario en el PR
+      - name: Upsert PR comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node .github/scripts/rag-review/upsert-comment.mjs result.json
+
+      # ===============================
+      # 🤖 AGENTIC QA (Angular + MCP)
+      # ===============================
+
+      # 6️⃣ Instalar dependencias del proyecto Angular
+      - name: Install dependencies
+        run: npm ci
+
+      # 7️⃣ Build Angular app
+      - name: Build Angular app
+        run: npm run build --if-present
+
+      # 9️⃣ Servir Angular app (background)
+      - name: Serve Angular app
+        run: |
+          npx serve -s dist -l 4200 &
+          sleep 10
+
+      # 🔟 Levantar Playwright MCP Server
+      - name: Start Playwright MCP Server
+        run: |
+          node .github/scripts/playwright/start-mcp.mjs &
+          sleep 5
+
+      # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
+      - name: Claude QA Review (Angular + MCP)
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          custom_instructions: |
+            The Angular app is running at http://localhost:4200.
+            Please execute a happy-path UI validation using Playwright MCP:
+            - Open the homepage
+            - Verify the main UI loads
+            - Click the primary CTA if present
+            - Report any failures and suggest fixes
+
+          mcp_config: |
+            {
+              "mcpServers": {
+                "playwright": {
+                  "command": "npx",
+                  "args": [
+                    "@playwright/mcp@latest",
+                    "--allowed-origins",
+                    "localhost:4200"
+                  ]
+                }
+              }
+            }
+
+          claude_args: >-
+            --allowed-tools
+            "Bash(npm:*),
+            mcp__playwright__browser_navigate,
+            mcp__playwright__browser_click,
+            mcp__playwright__browser_snapshot"   
