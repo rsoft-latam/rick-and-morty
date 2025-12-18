@@ -86,17 +86,33 @@ jobs:
 
       # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
       - name: Claude QA Review (Angular + MCP)
-        uses: anthropics/claude-code-action@v1
+        id: claude  
+        uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
           custom_instructions: |
-            The Angular app is running at http://localhost:4200.
-            Please execute a happy-path UI validation using Playwright MCP:
-            - Open the homepage
-            - Verify the main UI loads
-            - Click the primary CTA if present
-            - Report any failures and suggest fixes
+            The Angular application is running at http://localhost:4200.
+
+            This is a Rick and Morty characters app. Please perform a happy-path UI validation
+            using Playwright MCP with the following steps:
+
+            1. Navigate to http://localhost:4200/character
+            2. Verify that the Characters page loads successfully
+            3. Confirm that a grid/list of character cards is rendered
+            4. Ensure that at least one card displays:
+              - a character image
+              - a character name (e.g. Rick Sanchez, Morty Smith)
+              - a "View Character" button
+            5. Click the first available "View Character" button
+            6. Verify that the character detail view loads without errors
+
+            If any step fails:
+            - Describe exactly what failed
+            - Include which UI element was missing or not clickable
+            - Suggest a possible fix (routing, component, data loading, or selector issue)
+
+            Post a concise summary of the results as a comment on the pull request.
 
           mcp_config: |
             {
@@ -111,10 +127,4 @@ jobs:
                 }
               }
             }
-
-          claude_args: >-
-            --allowed-tools
-            "Bash(npm:*),
-            mcp__playwright__browser_navigate,
-            mcp__playwright__browser_click,
-            mcp__playwright__browser_snapshot"   
+          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."
