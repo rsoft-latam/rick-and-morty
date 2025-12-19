@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class CharacterFilter {\n  constructor() {\n    this.page = 1;\n    this.species = null;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

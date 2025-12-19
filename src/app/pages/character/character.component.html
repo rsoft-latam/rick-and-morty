@@ -7,17 +7,14 @@
 
   <div class="container">
 
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="flex items-center justify-between">
 
       <elastic-breadcrumbs [currentPage]="'Characters'"
                            [header]="'primary'">
       </elastic-breadcrumbs>
 
-      <div class="actions"
-           fxLayout="row"
-           fxLayoutAlign="end center"
-           fxLayoutGap="24px">
-        <div fxLayout="row" fxLayoutGap="10px">
+      <div class="actions flex items-center justify-end gap-6">
+        <div class="flex gap-2.5">
           <button mat-mini-fab
                   color="primary"
                   (click)="previous()"
@@ -47,19 +44,15 @@
       </div>
     </div>
 
-    <div class="projects-container" style="flex-flow: row wrap; display: flex;" fxLayoutGap="24px">
+    <div class="projects-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <div class="project mat-elevation-z4"
-           *ngFor="let project of items | async"
-           [fxFlex]="mobileWidth"
-           [fxFlex.gt-xs]="smallTabletWidth"
-           [fxFlex.gt-sm]="tabletWidth"
-           [fxFlex.gt-md]="desktopWidth">
+           *ngFor="let project of items | async">
 
         <div class="header" style="background-image: url({{project.image}})">
           <div class="content">
-            <div fxLayout="column" fxFlex="auto">
-              <div class="top-row" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="flex flex-col flex-1">
+              <div class="top-row flex items-center justify-between">
                 <div>{{project.created | date:'MMM d, y'}}</div>
               </div>
             </div>
@@ -75,9 +68,8 @@
         </div>
 
         <div class="overlay">
-          <div class="overlay-content" fxLayout="column" fxLayoutAlign="space-between">
-            <div class="overlay-actions" fxLayout="row"
-                 fxLayoutGap="16px">
+          <div class="overlay-content flex flex-col justify-between">
+            <div class="overlay-actions flex gap-4">
             </div>
             <button [routerLink]="['/character-details', project.id]" type="button" mat-raised-button>View Character
             </button>

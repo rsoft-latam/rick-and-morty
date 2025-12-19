@@ -1,6 +1,6 @@
 <div class="settings">
-  <div id="settings-layouts" fxLayout="column" fxLayoutAlign="start start">
-    <mat-radio-group class="layout-radio-group" (change)="setLayout($event)" fxLayout="column" fxLayoutGap="24px">
+  <div id="settings-layouts" class="flex flex-col items-start justify-start">
+    <mat-radio-group class="layout-radio-group flex flex-col gap-6" (change)="setLayout($event)">
       <mat-radio-button value="alpha">
         <img class="layout-option-image" src="assets/img/demo/settings/layout_alpha.png">
       </mat-radio-button>

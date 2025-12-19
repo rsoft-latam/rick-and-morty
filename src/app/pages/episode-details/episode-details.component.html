@@ -14,21 +14,15 @@
       [header]="'primary'">
     </elastic-breadcrumbs>
 
-    <div fxLayout="column" fxLayoutGap="16px" fxLayoutGap.gt-md="24px">
+    <div class="flex flex-col gap-4 md:gap-6">
       <div class="splash"
-           fxLayout="column" fxLayout.gt-sm="row">
+           class="flex flex-col md:flex-row">
 
-        <div class="right" fxFlex="auto" fxFlex.gt-sm
-             fxLayout="column" fxLayoutAlign.gt-sm="space-between">
+        <div class="right flex flex-col flex-1 md:justify-between">
           <div class="splash-title">Episode Information</div>
 
           <div class="details"
-               fxLayout.xl="row"
-               fxLayout.lg="row"
-               fxLayout.md="row"
-               fxLayout.sm="column"
-               fxLayout.xs="column"
-               fxLayoutGap="16px">
+               class="flex flex-col md:flex-row gap-4">
 
             <div class="detail">
               <div class="name">ID</div>
@@ -65,13 +59,13 @@
 
               <div class="detail">
                 <div class="value">
-                  <mat-chip-list>
+                  <mat-chip-set>
                     <mat-chip *ngFor="let item of (episode | async)?.characters; let i = index;"
                               [routerLink]="['/character-details', i + 1]"
                               style="width: 120px; cursor: pointer;">
                       {{ 'Character ' + (i + 1) }}
                     </mat-chip>
-                  </mat-chip-list>
+                  </mat-chip-set>
                 </div>
               </div>
 

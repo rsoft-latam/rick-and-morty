@@ -9,7 +9,6 @@ import { ToolbarNavigationItemComponent } from './toolbar-navigation/toolbar-nav
 import {
   ToolbarNavigationDropdownItemComponent
 } from './toolbar-navigation/toolbar-navigation-item/toolbar-navigation-dropdown-item/toolbar-navigation-dropdown-item.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollbarModule } from '../scrollbar/scrollbar.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -25,7 +24,6 @@ import {MatRippleModule} from "@angular/material/core";
     CommonModule,
     FormsModule,
     RouterModule,
-    FlexLayoutModule,
     MatButtonModule,
     MatIconModule,
     ScrollbarModule,

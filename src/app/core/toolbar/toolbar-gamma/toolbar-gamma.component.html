@@ -1,22 +1,21 @@
 <div class="toolbar" id="header">
 
-  <div class="container" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="container flex justify-between">
 
-    <div class="sidenav-header" fxLayout="row" fxLayoutAlign="start center">
-      <button fxShow fxHide.gt-sm class="menu-toggle-mobile" type="button" mat-icon-button (click)="toggleSidenav()">
+    <div class="sidenav-header flex items-center justify-start">
+      <button class="menu-toggle-mobile md:hidden" type="button" mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
 
-      <a fxHide fxShow.gt-xs [routerLink]="['/']">
+      <a class="hidden sm:block" [routerLink]="['/']">
         <img class="logo" alt="logo" src="assets/img/logo2x.png">
       </a>
     </div>
 
-    <div class="search-bar" fxHide fxShow.gt-sm
-         fxLayout="row" fxLayoutAlign="start center" fxFlex="450px" fxFlexOffset.gt-sm="36px">
+    <div class="search-bar hidden md:flex items-center justify-start md:basis-[450px] md:flex-none md:ml-9">
     </div>
 
-    <div fxLayout="row" fxFlexOffset.gt-sm="24px">
+    <div class="flex md:ml-6">
 
       <elastic-toolbar-user-button></elastic-toolbar-user-button>
 

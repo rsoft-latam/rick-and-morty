@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 // MODULES
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {SharedMaterialModule} from "../../shared/shared-material.module";
 import {PageHeaderModule} from "../../core/page-header/page-header.module";
 import {BreadcrumbsModule} from "../../core/breadcrumbs/breadcrumbs.module";
@@ -19,7 +18,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule,
     PageHeaderModule,
     BreadcrumbsModule,
     SharedMaterialModule,

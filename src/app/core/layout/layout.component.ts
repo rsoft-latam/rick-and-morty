@@ -3,10 +3,10 @@ import * as fromRoot from '../../reducers/index';
 import * as layout from './shared/layout.action';
 import { Store } from '@ngrx/store';
 import { NavigationEnd, Router } from '@angular/router';
-import { MediaReplayService } from '../utils/media-replay.service';
-import { MediaChange } from '@angular/flex-layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { componentDestroyed } from '../utils/component-destroyed';
 import { Observable } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -40,7 +40,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   buyNowToolbarVisible = true;
 
   constructor(
-    private mediaReplayService: MediaReplayService,
+    private breakpointObserver: BreakpointObserver,
     private router: Router,
     private store: Store<fromRoot.State>,
     private cd: ChangeDetectorRef
@@ -65,24 +65,27 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
     // /Layout
 
-    this.mediaReplayService.media$.pipe(
-      takeUntil(componentDestroyed(this))
-    ).subscribe((change: MediaChange) => {
-      const isMobile = (change.mqAlias === 'xs') || (change.mqAlias === 'sm');
+    this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(
+        map((state) => state.matches),
+        distinctUntilChanged(),
+        takeUntil(componentDestroyed(this))
+      )
+      .subscribe((isMobile) => {
+        this.isMobile = isMobile;
+        this.cd.markForCheck();
 
-      this.isMobile = isMobile;
-      this.cd.markForCheck();
-
-      if (isMobile || this.layout === 'gamma') {
-        this.closeSidenav();
-        this.setSidenavMode('over');
-        this.setSidenavDisableClose(false);
-      } else {
-        this.openSidenav();
-        this.setSidenavMode('side');
-        this.setSidenavDisableClose(true);
-      }
-    });
+        if (isMobile || this.layout === 'gamma') {
+          this.closeSidenav();
+          this.setSidenavMode('over');
+          this.setSidenavDisableClose(false);
+        } else {
+          this.openSidenav();
+          this.setSidenavMode('side');
+          this.setSidenavDisableClose(true);
+        }
+      });
 
     this.router.events.pipe(takeUntil(componentDestroyed(this))).subscribe((event) => {
       if (event instanceof NavigationEnd) {

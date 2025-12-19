@@ -1,0 +1,1 @@
+{"ast":null,"code":"export function clamp(value, lower, upper) {\n  return Math.max(lower, Math.min(upper, value));\n}\n//# sourceMappingURL=clamp.js.map","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

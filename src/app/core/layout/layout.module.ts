@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { SidenavModule } from '../sidenav/sidenav.module';
 import { ToolbarModule } from '../toolbar/toolbar.module';
 import { RouterModule } from '@angular/router';
@@ -16,7 +15,6 @@ import {MatButtonModule} from "@angular/material/button";
   imports: [
     CommonModule,
     RouterModule,
-    FlexLayoutModule,
     MatSidenavModule,
     SidenavModule,
     SettingsModule,

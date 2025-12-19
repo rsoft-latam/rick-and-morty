@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 // MODULES
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {SharedMaterialModule} from "../../shared/shared-material.module";
 import {PageHeaderModule} from "../../core/page-header/page-header.module";
 import {BreadcrumbsModule} from "../../core/breadcrumbs/breadcrumbs.module";
@@ -21,7 +20,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    FlexLayoutModule,
     PageHeaderModule,
     BreadcrumbsModule,
     SharedMaterialModule,

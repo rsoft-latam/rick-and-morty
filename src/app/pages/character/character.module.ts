@@ -4,7 +4,6 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 // MODULES
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {ScrollbarModule} from '../../core/scrollbar/scrollbar.module';
 import {SharedMaterialModule} from "../../shared/shared-material.module";
@@ -23,7 +22,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    FlexLayoutModule,
     ScrollbarModule,
     ScrollingModule,
     PageHeaderModule,

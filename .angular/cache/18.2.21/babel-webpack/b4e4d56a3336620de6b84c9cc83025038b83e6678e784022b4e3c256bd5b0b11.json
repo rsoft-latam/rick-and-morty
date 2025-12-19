@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const scrollbarOptions = {\n  damping: 0.2,\n  thumbMinSize: 20,\n  renderByPixels: true,\n  alwaysShowTracks: false,\n  continuousScrolling: true,\n  delegateTo: null,\n  plugins: null\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

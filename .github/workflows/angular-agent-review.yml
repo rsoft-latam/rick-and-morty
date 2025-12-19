@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: "20"
 
       # 3️⃣ Construir payload desde el PR
       - name: Build PR payload
@@ -65,7 +65,7 @@ jobs:
 
       # 6️⃣ Instalar dependencias del proyecto Angular
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       # 7️⃣ Build Angular app
       - name: Build Angular app

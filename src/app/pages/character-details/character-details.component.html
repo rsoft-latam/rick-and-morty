@@ -11,79 +11,60 @@
                          [names]="['Characters']"
                          [header]="'primary'"></elastic-breadcrumbs>
 
-    <div fxLayout="column"
-         fxLayoutGap="16px"
-         fxLayoutGap.gt-md="24px">
-      <div class="splash" fxLayout="column" fxLayout.gt-sm="row">
+    <div class="flex flex-col gap-4 md:gap-6">
+      <div class="splash flex flex-col md:flex-row">
 
         <div class="left" style="background-repeat: no-repeat;
              background-size: 100%;
              background-color: #F4F4F4;
              background-position: center;background-image: url({{(character | async)?.image}})"
-             fxLayout="column"
-             fxFlex.gt-xs="200px" fxFlex.gt-sm="300px">
+             class="flex flex-col flex-none sm:w-[200px] md:w-[300px]">
         </div>
 
-        <div class="right"
-             fxFlex="auto"
-             fxLayout="column"
-             fxLayoutGap="30px"
-             fxLayoutAlign="space-between">
+        <div class="right flex flex-col flex-1 justify-between gap-[30px]">
           <div class="splash-title">Character Information</div>
 
-          <div class="details"
-               fxLayout.xl="row"
-               fxLayout.lg="row"
-               fxLayout.md="row"
-               fxLayout.sm="column"
-               fxLayout.xs="column"
-               fxLayoutGap="16px">
+          <div class="details flex flex-col md:flex-row gap-4">
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Name</div>
               <div class="value">{{ (character | async)?.name }}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Status</div>
               <div class="value">{{ (character | async)?.status }}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Species</div>
               <div class="value">{{ (character | async)?.species }}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Gender</div>
               <div class="value">{{ (character | async)?.gender }}</div>
             </div>
           </div>
 
-          <div class="details"
-               fxLayout.xl="row"
-               fxLayout.lg="row"
-               fxLayout.md="row"
-               fxLayout.sm="column"
-               fxLayout.xs="column"
-               fxLayoutGap="16px">
+          <div class="details flex flex-col md:flex-row gap-4">
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Origin</div>
               <div class="value">{{ (character | async)?.origin.name }}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Location</div>
               <div class="value">{{ (character | async)?.location.name }}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Created</div>
               <div class="value">{{ (character | async)?.created | date:'MMM d, y'}}</div>
             </div>
 
-            <div class="detail" fxFlex="25%">
+            <div class="detail w-full md:w-1/4">
               <div class="name">Type</div>
               <div class="value">{{ (character | async)?.type }}</div>
             </div>
@@ -97,13 +78,13 @@
             <div class="description">
               <div class="detail">
                 <div class="value">
-                  <mat-chip-list>
+                  <mat-chip-set>
                     <mat-chip *ngFor="let item of (character | async)?.episode; let i = index;"
                               [routerLink]="['/episode-details', i + 1]"
                               style="width: 100px; cursor: pointer;">
                       {{ 'Episode ' + (i + 1) }}
                     </mat-chip>
-                  </mat-chip-list>
+                  </mat-chip-set>
                 </div>
               </div>
             </div>
