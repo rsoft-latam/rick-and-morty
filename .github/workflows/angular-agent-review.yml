@@ -87,7 +87,12 @@ jobs:
         run: |
           gh auth status || true
           gh pr comment ${{ github.event.pull_request.number }} --body "✅ Debug comment from workflow (gh pr comment)."
-                         
+      
+      - name: Debug external API from runner
+        run: |
+          curl -I https://rickandmortyapi.com/api/character?page=1 | head -n 20
+                  
+          
       # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
       - name: Claude QA Review (Angular + MCP)
         id: claude  
