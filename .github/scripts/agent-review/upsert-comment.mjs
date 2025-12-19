@@ -83,7 +83,7 @@ async function main() {
   const result = readJson(resultPath);
 
   // Marker to find/update existing comment
-  const marker = "<!-- angular-rag-review -->";
+  const marker = "<!-- angular-agent-review -->";
 
   // If your agent returns a different key, change it here:
   const summary = result.summary_md || result.report_md || result.comment_md || null;
