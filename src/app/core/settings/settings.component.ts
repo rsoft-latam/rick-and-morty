@@ -29,7 +29,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setLayout(radioEvent: MatRadioChange) {
+  setLayout(radioEvent: MatRadioChange):any {
     this.store.dispatch(new layout.SelectLayoutAction(radioEvent.value));
   }
 
