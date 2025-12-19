@@ -134,7 +134,7 @@ jobs:
                   "args": [
                     "@playwright/mcp@latest",
                     "--allowed-origins",
-                    "localhost:4200"
+                    "localhost:4200;fonts.googleapis.com;fonts.gstatic.com;rickandmortyapi.com"
                   ]
                 }
               }
