@@ -100,12 +100,12 @@ jobs:
             5. Click the first available "View Character" button
             6. Verify that the character detail view loads without errors
 
-            If any step fails:
-            - Describe exactly what failed
-            - Include which UI element was missing or not clickable
-            - Suggest a possible fix (routing, component, data loading, or selector issue)
+            After completing the validation:
+            - Summarize the result (PASS or FAIL)
+            - If FAIL, describe exactly what failed and suggest a fix
+            - If PASS, confirm that the happy path works as expected
 
-            Post a concise summary of the results as a comment on the pull request.
+            **Post the summary as a comment on the Pull Request using `gh pr comment`.**
 
           mcp_config: |
             {
@@ -120,4 +120,4 @@ jobs:
                 }
               }
             }
-          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."
+          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),Bash(gh pr comment:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."

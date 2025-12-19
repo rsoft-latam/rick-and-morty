@@ -25,12 +25,12 @@ export class EpisodeDetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): any {
     const id = this.activatedRoute.snapshot.params.id;
     this.subs = this.episodeDetailsService.getEpisodeById(id).subscribe(res => this.episode.next(res.body));
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): any {
     this.subs?.unsubscribe();
   }
 
