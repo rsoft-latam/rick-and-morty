@@ -11,7 +11,6 @@ permissions:
 jobs:
   rag-review:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
       # 1️⃣ Checkout del repo que se está revisando
       - name: Checkout repository
@@ -38,16 +37,6 @@ jobs:
           echo "Payload generated:"
           jq '.files | length' payload.json
 
-          - name: Debug REVIEW_AGENT_URL presence
-          env:
-            REVIEW_AGENT_URL: ${{ secrets.REVIEW_AGENT_URL }}
-          run: |
-            if [ -z "$REVIEW_AGENT_URL" ]; then
-              echo "❌ REVIEW_AGENT_URL is EMPTY (secret not injected)"
-              exit 1
-            fi
-            echo "✅ REVIEW_AGENT_URL is set"    
-
       # 4️⃣ Llamar a tu Angular Review Agent (RAG + Pinecone)
       - name: Call Angular Review Agent
         env:
@@ -68,7 +57,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node .github/scripts/rag-review/upsert-comment.mjs result.json
+          node .github/scripts/agent-review/upsert-comment.mjs result.json
 
       # ===============================
       # 🤖 AGENTIC QA (Angular + MCP)
@@ -87,12 +76,6 @@ jobs:
         run: |
           npx serve -s dist -l 4200 &
           sleep 10
-
-      # 🔟 Levantar Playwright MCP Server
-      - name: Start Playwright MCP Server
-        run: |
-          node .github/scripts/playwright/start-mcp.mjs &
-          sleep 5
 
       # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
       - name: Claude QA Review (Angular + MCP)
