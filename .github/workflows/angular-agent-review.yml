@@ -11,6 +11,11 @@ permissions:
 jobs:
   rag-review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
     steps:
       # 1️⃣ Checkout del repo que se está revisando
       - name: Checkout repository
@@ -101,8 +106,10 @@ jobs:
             Create a short markdown report starting with:
             <!-- ANGULAR_CLAUDE_QA -->
 
-            Then post it as a PR comment using:
-            gh pr comment ${{ github.event.pull_request.number }} --body "<your markdown report>"
+            Claude QA started.
+
+            Use:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<!-- ANGULAR_CLAUDE_QA -->\nClaude QA started."
 
           mcp_config: |
             {
