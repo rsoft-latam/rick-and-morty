@@ -1,0 +1,1 @@
+{"ast":null,"code":"export function updateObject(oldObject, newValues) {\n  // Encapsulate the idea of passing a new object as the first parameter\n  // to Object.assign to ensure we correctly copy data instead of mutating\n  return Object.assign({}, oldObject, newValues);\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

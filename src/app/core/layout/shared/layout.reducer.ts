@@ -1,5 +1,5 @@
 import * as layout from './layout.action';
-import { updateObject } from '../../utils/update-object';
+import {updateObject} from '../../utils/update-object';
 
 
 export interface State {
@@ -18,7 +18,7 @@ export interface State {
 const initialState: State = {
   layout: 'alpha',
   sidenavOpen: true,
-  sidenavCollapsed: true,
+  sidenavCollapsed: false,
   sidenavAlign: 'start',
   sidenavMode: 'side',
   sidenavDisableClose: true,

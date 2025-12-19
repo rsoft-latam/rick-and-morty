@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers/index';
 import * as layout from '../layout/shared/layout.action';
-import { MatRadioChange, MatSelectChange } from '@angular/material';
 import { componentDestroyed } from '../utils/component-destroyed';
 import { takeUntil } from 'rxjs/operators';
+import {MatRadioChange} from "@angular/material/radio";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'elastic-settings',

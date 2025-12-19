@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { HttpParams } from '@angular/common/http';\nexport const createRequestOption = req => {\n  let options = new HttpParams();\n  Object.keys(req).forEach(key => {\n    if (req[key]) {\n      options = options.set(key, req[key]);\n    }\n  });\n  return options;\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

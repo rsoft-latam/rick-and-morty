@@ -1,30 +1,22 @@
-<div class="toolbar" fxLayout="row">
+<div class="toolbar flex">
 
-  <div class="sidenav-header" fxFlex fxFlex.gt-sm="270px" fxLayout="row" fxLayoutAlign="start center">
+  <div class="sidenav-header flex items-center justify-start flex-1 md:basis-[270px] md:flex-none">
     <button class="menu-toggle" type="button" mat-icon-button (click)="toggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
 
-    <img class="logo" alt="logo" src="assets/img/logo2x.png" fxHide fxShow.gt-sm>
+    <img class="logo hidden md:block" alt="logo" src="assets/img/logo2x.png">
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="end stretch" fxLayoutAlign.gt-sm="space-between stretch" fxFlex>
+  <div class="flex flex-1 items-stretch justify-end md:justify-between">
 
-    <div class="search-bar" fxHide fxShow.gt-sm
-         fxLayout="row" fxLayoutAlign="start center" fxFlex fxFlex.gt-md="500px">
-      <elastic-search-bar></elastic-search-bar>
+    <div class="search-bar hidden md:flex items-center justify-start md:basis-[500px] md:flex-none">
     </div>
 
-    <div fxLayout="row" fxFlexOffset.gt-sm="24px">
-      <elastic-search fxShow fxHide.gt-sm></elastic-search>
-
-      <elastic-toolbar-notifications></elastic-toolbar-notifications>
+    <div class="flex md:ml-6">
 
       <elastic-toolbar-user-button></elastic-toolbar-user-button>
 
-      <button mat-button class="quickpanel-button icon-button" [class.open]="quickpanelOpen" (click)="toggleQuickpanel()">
-        <mat-icon class="icon">format_align_right</mat-icon>
-      </button>
     </div>
   </div>
 

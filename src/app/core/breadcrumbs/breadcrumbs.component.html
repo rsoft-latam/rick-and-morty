@@ -1,12 +1,12 @@
 <div class="breadcrumbs" [ngClass]="header" [class.padding-top]="header">
   <div class="title">{{ currentPage }}</div>
-  <div class="crumbs" fxLayout="row" fxLayoutAlign="start center">
+  <div class="crumbs flex items-center justify-start">
     <a class="crumb home" [routerLink]="['/']">Home</a>
-    <div class="crumb" *ngFor="let name of names; let i = index" fxLayout="row" fxLayoutAlign="start center">
+    <div class="crumb flex items-center justify-start" *ngFor="let name of names; let i = index">
       <mat-icon class="chevron">chevron_right</mat-icon>
       <a class="link" [routerLink]="routes[i]">{{ name }}</a>
     </div>
-    <div class="crumb" fxLayout="row" fxLayoutAlign="start center">
+    <div class="crumb flex items-center justify-start">
       <mat-icon class="chevron">chevron_right</mat-icon>
       <div class="link">{{ currentPage }}</div>
     </div>

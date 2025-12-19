@@ -1,12 +1,12 @@
-<div class="sidenav" fxLayout="column">
+<div class="sidenav flex flex-col">
 
   <!-- Layout: Alpha -->
-  <div class="header" fxLayout="row" fxLayoutAlign="start center" *ngIf="layout === 'alpha'">
+  <div class="header flex items-center justify-start" *ngIf="layout === 'alpha'">
 
     <img class="logo" alt="logo" src="assets/img/logo2x.png">
-    <span fxFlex></span>
+    <span class="flex-1"></span>
 
-    <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+    <div class="actions flex items-center justify-start">
       <button class="toggle" type="button" mat-icon-button (click)="toggleSidenavCollapse()" *ngIf="collapsed">
         <mat-icon>radio_button_unchecked</mat-icon>
       </button>
@@ -17,9 +17,9 @@
   </div>
   <!-- /Layout: Alpha -->
 
-  <elastic-scrollbar class="menu" fxFlex>
+  <elastic-scrollbar class="menu flex-1">
 
-    <div class="heading" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="heading flex items-center justify-between">
       <div class="name">Navigation</div>
 
       <!-- Layout: Beta -->

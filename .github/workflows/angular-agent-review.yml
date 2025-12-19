@@ -1,0 +1,123 @@
+name: Angular Agent Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  rag-review:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout del repo que se está revisando
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2️⃣ Node.js para los scripts .mjs
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 3️⃣ Construir payload desde el PR
+      - name: Build PR payload
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXAM_LEVEL: mid            # junior | mid | senior
+          MAX_FILES: "10"
+          MAX_TOTAL_CHARS: "200000"
+          ALLOWED_EXT: ".ts,.html,.scss,.md"
+        run: |
+          node .github/scripts/agent-review/build-payload.mjs > payload.json
+          echo "Payload generated:"
+          jq '.files | length' payload.json
+
+      # 4️⃣ Llamar a tu Angular Review Agent (RAG + Pinecone)
+      - name: Call Angular Review Agent
+        env:
+          REVIEW_AGENT_URL: ${{ secrets.REVIEW_AGENT_URL }}
+          REVIEW_AGENT_TOKEN: ${{ secrets.REVIEW_AGENT_TOKEN }}
+        run: |
+          curl -sS -X POST "$REVIEW_AGENT_URL/github/pr-review" \
+            -H "Authorization: Bearer $REVIEW_AGENT_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            -o result.json
+
+          echo "Agent response:"
+          jq '.' result.json
+
+      # 5️⃣ Publicar o actualizar comentario en el PR
+      - name: Upsert PR comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node .github/scripts/agent-review/upsert-comment.mjs result.json
+
+      # ===============================
+      # 🤖 AGENTIC QA (Angular + MCP)
+      # ===============================
+
+      # 6️⃣ Instalar dependencias del proyecto Angular
+      - name: Install dependencies
+        run: npm ci
+
+      # 7️⃣ Build Angular app
+      - name: Build Angular app
+        run: npm run build --if-present
+
+      # 9️⃣ Servir Angular app (background)
+      - name: Serve Angular app
+        run: |
+          npx serve -s dist -l 4200 &
+          sleep 10
+
+      # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
+      - name: Claude QA Review (Angular + MCP)
+        id: claude  
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_instructions: |
+            The Angular application is running at http://localhost:4200.
+
+            This is a Rick and Morty characters app. Please perform a happy-path UI validation
+            using Playwright MCP with the following steps:
+
+            1. Navigate to http://localhost:4200/character
+            2. Verify that the Characters page loads successfully
+            3. Confirm that a grid/list of character cards is rendered
+            4. Ensure that at least one card displays:
+              - a character image
+              - a character name (e.g. Rick Sanchez, Morty Smith)
+              - a "View Character" button
+            5. Click the first available "View Character" button
+            6. Verify that the character detail view loads without errors
+
+            If any step fails:
+            - Describe exactly what failed
+            - Include which UI element was missing or not clickable
+            - Suggest a possible fix (routing, component, data loading, or selector issue)
+
+            Post a concise summary of the results as a comment on the pull request.
+
+          mcp_config: |
+            {
+              "mcpServers": {
+                "playwright": {
+                  "command": "npx",
+                  "args": [
+                    "@playwright/mcp@latest",
+                    "--allowed-origins",
+                    "localhost:4200"
+                  ]
+                }
+              }
+            }
+          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."

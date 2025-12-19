@@ -3,11 +3,11 @@
 <ng-template #function>
   <a class="sidenav-item" [class.open]="isOpen(item)" matRipple
      (click)="item.route"
-     fxLayout="row" fxLayoutAlign="start center"
+     class="flex items-center justify-start"
      *ngIf="!item.hasSubItems()">
 
     <span class="name">{{ item.name }}</span>
-    <span fxFlex></span>
+    <span class="flex-1"></span>
     <mat-icon class="icon" *ngIf="item.icon">{{ item.icon }}</mat-icon>
     <div class="letter-icon" *ngIf="item.hasParent()">{{ item.generateLetterIcon() }}</div>
     <!--<span class="badge fade-in-on-icon-sidenav" *ngIf="item.badge" [style.background-color]="item.badgeColor">{{ item.badge }}</span>-->
@@ -17,11 +17,11 @@
 <ng-template #route>
   <a class="sidenav-item" [class.open]="isOpen(item)" matRipple
      [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-     fxLayout="row" fxLayoutAlign="start center"
+     class="flex items-center justify-start"
      *ngIf="!item.hasSubItems()">
 
     <span class="name">{{ item.name }}</span>
-    <span fxFlex></span>
+    <span class="flex-1"></span>
     <mat-icon class="icon" *ngIf="item.icon">{{ item.icon }}</mat-icon>
     <div class="letter-icon" *ngIf="item.hasParent()">{{ item.generateLetterIcon() }}</div>
   </a>
@@ -29,11 +29,11 @@
 
 <a class="sidenav-item" [class.open]="isOpen(item)" matRipple
    (click)="toggleDropdown()"
-   fxLayout="row" fxLayoutAlign="start center"
+   class="flex items-center justify-start"
    *ngIf="item.hasSubItems()">
 
   <span class="name">{{ item.name }}</span>
-  <span fxFlex></span>
+  <span class="flex-1"></span>
   <mat-icon *ngIf="item.hasSubItems()" class="dropdown-indicator" [class.rotate]="isOpen(item)">expand_more</mat-icon>
   <mat-icon class="icon" *ngIf="item.icon">{{ item.icon }}</mat-icon>
   <div class="letter-icon" *ngIf="item.hasParent()">{{ item.generateLetterIcon() }}</div>

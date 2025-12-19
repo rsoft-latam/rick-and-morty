@@ -1,9 +1,9 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 export const SLIDE_RIGHT_ROUTE_TRANSITION = [
   trigger('routeTransition', [
-    state('void', style({ width: '100%', height: '100%'}) ),
-    state('*', style({ width: '100%', height: '100%'}) ),
+    state('void', style({width: '100%', height: '100%'})),
+    state('*', style({width: '100%', height: '100%'})),
     transition(':enter', [
       style({
         transform: 'translateX(-100%)',
@@ -23,11 +23,10 @@ export const SLIDE_RIGHT_ROUTE_TRANSITION = [
 
 export const FADE_IN_OUT_ROUTE_TRANSITION = [
   trigger('routeTransition', [
-    state('void', style({ width: '100%', height: '100%', display: 'block', position: 'absolute' }) ),
-    state('*', style({ width: '100%', height: '100%', display: 'block', position: 'absolute' }) ),
+    state('void', style({width: '100%', height: '100%', display: 'block', position: 'absolute'})),
+    state('*', style({width: '100%', height: '100%', display: 'block', position: 'absolute'})),
     transition(':enter', [
-      style({
-      })
+      style({})
     ]),
     transition(':leave', [
       style({
@@ -44,8 +43,8 @@ export const FADE_IN_OUT_ROUTE_TRANSITION = [
 
 export const FADE_IN_ROUTE_TRANSITION = [
   trigger('routeTransition', [
-    state('void', style({ width: '100%', height: '100%', display: 'block', position: 'absolute' }) ),
-    state('*', style({ width: '100%', height: '100%', display: 'block', position: 'absolute' }) ),
+    state('void', style({width: '100%', height: '100%', display: 'block', position: 'absolute'})),
+    state('*', style({width: '100%', height: '100%', display: 'block', position: 'absolute'})),
     transition(':enter', [
       style({
         opacity: '0',
@@ -54,9 +53,7 @@ export const FADE_IN_ROUTE_TRANSITION = [
         opacity: '1',
       }))
     ]),
-    transition(':leave', [
-
-    ])
+    transition(':leave', [])
   ])
 ];
 

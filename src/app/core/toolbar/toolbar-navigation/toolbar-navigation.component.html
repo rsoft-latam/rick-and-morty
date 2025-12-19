@@ -1,11 +1,11 @@
-<div class="horizontal-navigation" fxHide fxShow.gt-sm>
+<div class="horizontal-navigation hidden md:block">
   <div class="container">
-    <div class="menu" fxLayout="row">
+    <div class="menu flex">
       <div *ngFor="let item of sidenavItems$ | async; let index = index;">
         <elastic-toolbar-navigation-item *ngIf="index < showMoreButtonAfterIndex"
           [item]="item" [currentlyOpen]="currentlyOpen$ | async"></elastic-toolbar-navigation-item>
 
-        <div class="more-button-container" fxLayout="row" fxLayoutAlign="start center" *ngIf="index == showMoreButtonAfterIndex">
+        <div class="more-button-container flex items-center justify-start" *ngIf="index == showMoreButtonAfterIndex">
           <button mat-icon-button class="more-button" [matMenuTriggerFor]="moreMenu">
             <mat-icon>more_vert</mat-icon>
           </button>

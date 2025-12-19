@@ -1,15 +1,15 @@
 <a [routerLink]="item.route" routerLinkActive="active"
    class="dropdown-item" *ngIf="!item.hasSubItems()"
-   fxLayout="row" fxLayoutAlign="space-between center" matRipple>
+   class="flex items-center justify-between" matRipple>
   <span class="name">{{ item.name }}</span>
-  <span fxFlex></span>
+  <span class="flex-1"></span>
   <div class="letter-icon">{{ item.generateLetterIcon() }}</div>
 </a>
 
 <a class="dropdown-item" *ngIf="item.hasSubItems()" (click)="toggleDropdown(item)"
-   fxLayout="row" fxLayoutAlign="space-between center" matRipple>
+   class="flex items-center justify-between" matRipple>
   <span class="name">{{ item.name }}</span>
-  <span fxFlex></span>
+  <span class="flex-1"></span>
   <mat-icon *ngIf="item.hasSubItems()" class="dropdown-indicator" [class.rotate]="isOpen(item)">expand_more</mat-icon>
   <div class="letter-icon">{{ item.generateLetterIcon() }}</div>
 </a>

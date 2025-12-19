@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  googleMapsApiKey: ''
+  app: {
+    apiBaseUrl: 'https://rickandmortyapi.com/api/'
+  }
 };
