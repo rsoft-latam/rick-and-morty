@@ -85,10 +85,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "$GITHUB_TOKEN" | gh auth login --with-token
-          gh auth status
+          gh auth status || true
           gh pr comment ${{ github.event.pull_request.number }} --body "✅ Debug comment from workflow (gh pr comment)."
-                            
+                         
       # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
       - name: Claude QA Review (Angular + MCP)
         id: claude  
