@@ -89,76 +89,20 @@ jobs:
             Pull Request: ${{ github.event.pull_request.number }}
             Branch: ${{ github.event.pull_request.head.ref }}
 
-            The Angular application is already running at:
-            http://localhost:4200
+            The Angular app is running at http://localhost:4200.
 
-            This is a **Rick and Morty characters Angular application**.
+            Run a happy-path UI validation with Playwright MCP:
+            1) Go to http://localhost:4200/character
+            2) Verify characters page loads
+            3) Verify at least one character card is visible
+            4) Click first "View Character" button
+            5) Verify detail view loads
 
-            Your task is to perform a **happy-path UI validation** using **Playwright MCP**.
-
-            ---
-
-            ### 🧪 Happy Path Steps (execute in order)
-
-            1. Navigate to:
-              http://localhost:4200/character
-
-            2. Verify that the **Characters page loads successfully** without errors.
-
-            3. Confirm that a **grid or list of character cards** is rendered.
-
-            4. Ensure that **at least one character card** displays:
-              - a character image
-              - a character name (e.g. Rick Sanchez, Morty Smith)
-              - a **"View Character"** button
-
-            5. Click the **first available "View Character"** button.
-
-            6. Verify that the **character detail view loads correctly** and no runtime or UI errors occur.
-
-            ---
-
-            ### 📝 Reporting Rules (IMPORTANT)
-
-            After completing the validation, produce a **markdown report** using the **exact format below**.
-
-            The report MUST start with this marker (do not change it):
-
+            Create a short markdown report starting with:
             <!-- ANGULAR_CLAUDE_QA -->
 
-            Then include:
-
-            ## 🤖 Claude QA – Playwright MCP
-
-            **Result:** PASS or FAIL
-
-            ### Steps Executed
-            - Step 1: ...
-            - Step 2: ...
-            - Step 3: ...
-
-            ### Findings
-            - If PASS:
-              - Confirm that the happy path works as expected.
-            - If FAIL:
-              - Clearly describe what failed
-              - Specify which UI element was missing, broken, or not clickable
-              - Suggest a likely fix (routing, component logic, API/data loading, selector issue, etc.)
-
-            ---
-
-            ### 📢 Publishing the Result
-
-            Once the report is ready:
-
-            - Post it as a **NEW comment** on the Pull Request
-            - Use the following command to publish it:
-
-            gh pr comment ${{ github.event.pull_request.number }} --body "<paste the full markdown report here>"
-
-            Do NOT edit or overwrite other comments.
-            Do NOT mention the RAG agent.
-            This comment must be exclusively for **Claude QA (UI validation)**.
+            Then post it as a PR comment using:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<your markdown report>"
 
           mcp_config: |
             {
@@ -175,6 +119,8 @@ jobs:
             }
           allowed_tools: >
             Bash(gh pr comment:*),
+            Bash(gh pr view:*),
+            Bash(gh api:*),
             mcp__playwright__browser_navigate,
             mcp__playwright__browser_click,
             mcp__playwright__browser_snapshot
