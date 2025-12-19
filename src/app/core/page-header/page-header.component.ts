@@ -7,10 +7,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PageHeaderComponent implements OnInit {
 
-  @Input() height: string;
-  @Input() background: string;
-  @Input() reverse: boolean;
-  @Input() reverseDirection: string[];
+  @Input() height: any;
+  @Input() background: any;
+  @Input() reverse: any;
+  @Input() reverseDirection: any[];
 
   reverseDir: boolean[] = [ ];
 
