@@ -85,32 +85,80 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_instructions: |
-            PR: ${{ github.event.pull_request.number }}
             Repository: ${{ github.repository }}
+            Pull Request: ${{ github.event.pull_request.number }}
             Branch: ${{ github.event.pull_request.head.ref }}
-          
-            The Angular application is running at http://localhost:4200.
 
-            This is a Rick and Morty characters app. Please perform a happy-path UI validation
-            using Playwright MCP with the following steps:
+            The Angular application is already running at:
+            http://localhost:4200
 
-            1. Navigate to http://localhost:4200/character
-            2. Verify that the Characters page loads successfully
-            3. Confirm that a grid/list of character cards is rendered
-            4. Ensure that at least one card displays:
+            This is a **Rick and Morty characters Angular application**.
+
+            Your task is to perform a **happy-path UI validation** using **Playwright MCP**.
+
+            ---
+
+            ### 🧪 Happy Path Steps (execute in order)
+
+            1. Navigate to:
+              http://localhost:4200/character
+
+            2. Verify that the **Characters page loads successfully** without errors.
+
+            3. Confirm that a **grid or list of character cards** is rendered.
+
+            4. Ensure that **at least one character card** displays:
               - a character image
               - a character name (e.g. Rick Sanchez, Morty Smith)
-              - a "View Character" button
-            5. Click the first available "View Character" button
-            6. Verify that the character detail view loads without errors
+              - a **"View Character"** button
 
-            After completing the validation:
-            - Summarize the result (PASS or FAIL)
-            - If FAIL, describe exactly what failed and suggest a fix
-            - If PASS, confirm that the happy path works as expected
+            5. Click the **first available "View Character"** button.
 
-            Finally, post the summary as a PR comment by running:
-            gh pr comment ${{ github.event.pull_request.number }} --body "<paste your summary markdown here>"
+            6. Verify that the **character detail view loads correctly** and no runtime or UI errors occur.
+
+            ---
+
+            ### 📝 Reporting Rules (IMPORTANT)
+
+            After completing the validation, produce a **markdown report** using the **exact format below**.
+
+            The report MUST start with this marker (do not change it):
+
+            <!-- ANGULAR_CLAUDE_QA -->
+
+            Then include:
+
+            ## 🤖 Claude QA – Playwright MCP
+
+            **Result:** PASS or FAIL
+
+            ### Steps Executed
+            - Step 1: ...
+            - Step 2: ...
+            - Step 3: ...
+
+            ### Findings
+            - If PASS:
+              - Confirm that the happy path works as expected.
+            - If FAIL:
+              - Clearly describe what failed
+              - Specify which UI element was missing, broken, or not clickable
+              - Suggest a likely fix (routing, component logic, API/data loading, selector issue, etc.)
+
+            ---
+
+            ### 📢 Publishing the Result
+
+            Once the report is ready:
+
+            - Post it as a **NEW comment** on the Pull Request
+            - Use the following command to publish it:
+
+            gh pr comment ${{ github.event.pull_request.number }} --body "<paste the full markdown report here>"
+
+            Do NOT edit or overwrite other comments.
+            Do NOT mention the RAG agent.
+            This comment must be exclusively for **Claude QA (UI validation)**.
 
           mcp_config: |
             {

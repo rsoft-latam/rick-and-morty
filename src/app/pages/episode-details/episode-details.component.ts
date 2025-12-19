@@ -17,7 +17,7 @@ import {ROUTE_TRANSITION} from '../../app.animation';
 
 export class EpisodeDetailsComponent implements OnInit, OnDestroy {
 
-  episode = new BehaviorSubject<any>(null);
+  episode = new BehaviorSubject<string>(null);
   subs: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -31,7 +31,6 @@ export class EpisodeDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
-    this.subs?.unsubscribe();
   }
 
 }
