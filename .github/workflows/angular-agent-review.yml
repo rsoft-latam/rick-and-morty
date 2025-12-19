@@ -99,20 +99,26 @@ jobs:
           direct_prompt: |
             The Angular app is running at http://localhost:4200.
 
-            Run a happy-path UI validation with Playwright MCP:
+            Run a happy-path UI validation using Playwright MCP:
             1) Go to http://localhost:4200/character
-            2) Confirm the Characters page loads and at least one character card is visible
-            3) Click the first "View Character" button
-            4) Confirm the detail page loads (no errors)
+            2) Confirm the page loads
+            3) Check if character cards render
+            4) If cards exist, click the first "View Character"
+            5) Confirm the detail page loads
 
-            Post ONE markdown PR comment with:
+            Post EXACTLY ONE PR comment (no second comment, no todo list, no extra summary).
+            The comment must start with:
+            <!-- ANGULAR_CLAUDE_QA -->
+
+            Format:
             <!-- ANGULAR_CLAUDE_QA -->
             ## 🤖 Claude QA – Playwright MCP
-            **Result:** PASS|FAIL
-            - What you checked (short)
-            - Any failure details + suggested fix (only if FAIL)
+            **Result:** PASS|FAIL|PARTIAL PASS
+            **Checked:** (3–6 bullets)
+            **Issues:** (only if any)
+            **Suggested fix:** (1–3 bullets)
 
-            Use:
+            Use only:
             gh pr comment ${{ github.event.pull_request.number }} --body "<markdown>"
 
           mcp_config: |
@@ -135,6 +141,7 @@ jobs:
             Bash(*),
             Bash(npm:*),
             Bash(sqlite3:*),
+            mcp__playwright__browser_navigate,
+            mcp__playwright__browser_click,
             mcp__playwright__browser_snapshot,
-            mcp__playwright__browser_click
-            mcp__playwright__browser_navigate        
+            mcp__playwright__browser_console_messages        
