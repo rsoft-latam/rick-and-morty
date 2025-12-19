@@ -11,6 +11,11 @@ permissions:
 jobs:
   rag-review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
     steps:
       # 1️⃣ Checkout del repo que se está revisando
       - name: Checkout repository
@@ -85,32 +90,26 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_instructions: |
-            PR: ${{ github.event.pull_request.number }}
             Repository: ${{ github.repository }}
+            Pull Request: ${{ github.event.pull_request.number }}
             Branch: ${{ github.event.pull_request.head.ref }}
-          
-            The Angular application is running at http://localhost:4200.
 
-            This is a Rick and Morty characters app. Please perform a happy-path UI validation
-            using Playwright MCP with the following steps:
+            The Angular app is running at http://localhost:4200.
 
-            1. Navigate to http://localhost:4200/character
-            2. Verify that the Characters page loads successfully
-            3. Confirm that a grid/list of character cards is rendered
-            4. Ensure that at least one card displays:
-              - a character image
-              - a character name (e.g. Rick Sanchez, Morty Smith)
-              - a "View Character" button
-            5. Click the first available "View Character" button
-            6. Verify that the character detail view loads without errors
+            Run a happy-path UI validation with Playwright MCP:
+            1) Go to http://localhost:4200/character
+            2) Verify characters page loads
+            3) Verify at least one character card is visible
+            4) Click first "View Character" button
+            5) Verify detail view loads
 
-            After completing the validation:
-            - Summarize the result (PASS or FAIL)
-            - If FAIL, describe exactly what failed and suggest a fix
-            - If PASS, confirm that the happy path works as expected
+            Create a short markdown report starting with:
+            <!-- ANGULAR_CLAUDE_QA -->
 
-            Finally, post the summary as a PR comment by running:
-            gh pr comment ${{ github.event.pull_request.number }} --body "<paste your summary markdown here>"
+            Claude QA started.
+
+            Use:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<!-- ANGULAR_CLAUDE_QA -->\nClaude QA started."
 
           mcp_config: |
             {
@@ -127,6 +126,8 @@ jobs:
             }
           allowed_tools: >
             Bash(gh pr comment:*),
+            Bash(gh pr view:*),
+            Bash(gh api:*),
             mcp__playwright__browser_navigate,
             mcp__playwright__browser_click,
             mcp__playwright__browser_snapshot
