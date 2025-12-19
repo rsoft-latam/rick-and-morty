@@ -96,7 +96,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-          custom_instructions: |
+          direct_prompt: |
             Repository: ${{ github.repository }}
             Pull Request: ${{ github.event.pull_request.number }}
             Branch: ${{ github.event.pull_request.head.ref }}
@@ -158,10 +158,11 @@ jobs:
             Bash(gh pr view:*),
             Bash(gh api:*),
             Bash(*),
-            mcp__playwright__browser_navigate,
-            mcp__playwright__browser_click,
-            mcp__playwright__browser_snapshot
-
+            Bash(npm:*),
+            Bash(sqlite3:*),
+            mcp__playwright__browser_snapshot,
+            mcp__playwright__browser_click
+            mcp__playwright__browser_navigate
       - name: Post Claude QA comment (guaranteed)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
