@@ -136,6 +136,10 @@ jobs:
             - Do NOT post any PR comments yourself.
             - Only generate `claude_qa.md`.
 
+            cat > claude_qa.md << 'EOF'
+            <PASTE THE FULL REPORT HERE>
+            EOF
+
           mcp_config: |
             {
               "mcpServers": {
@@ -153,6 +157,7 @@ jobs:
             Bash(gh pr comment:*),
             Bash(gh pr view:*),
             Bash(gh api:*),
+            Bash(*),
             mcp__playwright__browser_navigate,
             mcp__playwright__browser_click,
             mcp__playwright__browser_snapshot
