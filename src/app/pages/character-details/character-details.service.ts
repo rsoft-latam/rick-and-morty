@@ -14,8 +14,8 @@ export class CharacterDetailsService {
   constructor(private http: HttpClient) {
   }
 
-  getCharacterById(id: number): Observable<HttpResponse<any>> {
-    return this.http.get(`${this.apiBaseUrl}character/${id}`, {observe: 'response'});
+  getCharacterById(id: number): any {
+    return this.http.get<any>(`${this.apiBaseUrl}character/${id}`, {observe: 'response'});
   }
 
 }

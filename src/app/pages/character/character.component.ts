@@ -36,33 +36,33 @@ export class CharacterComponent implements OnInit, OnDestroy {
     this.rickAndMortyService.currentFilter().subscribe(res => {
       this.subs = this.rickAndMortyService.getCharacters(res).subscribe(
         res => this.items.next(res.body.results)
-      );
+      ); 
     });
 
   }
 
-  onFilter(event) {
+  onFilter(event):any {
     const aux = this.rickAndMortyService.getFilter();
     aux.page = 1;
     aux.species = event.value === 'all' ? null : event.value;
     this.rickAndMortyService.sendFilter(aux);
   }
 
-  ngOnInit() {
+  ngOnInit():any {
   }
 
 
-  ngOnDestroy() {
-    this.subs?.unsubscribe();
+  ngOnDestroy():any {
+    
   }
 
-  previous() {
+  previous():any {
     const aux = this.rickAndMortyService.getFilter();
     aux.page = aux.page - 1
     aux.page > 0 ? this.rickAndMortyService.sendFilter(aux) : '';
   }
 
-  next() {
+  next():any {
     const aux = this.rickAndMortyService.getFilter();
     aux.page = aux.page + 1
     this.rickAndMortyService.sendFilter(aux);

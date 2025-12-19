@@ -80,8 +80,8 @@ jobs:
       - name: Serve Angular app
         run: |
           npx serve -s dist -l 4200 &
-          sleep 10
-
+          sleep 10                              
+          
       # 1️⃣1️⃣ Ejecutar Happy Path vía MCP
       - name: Claude QA Review (Angular + MCP)
         id: claude  
@@ -89,27 +89,31 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_instructions: |
-            Repository: ${{ github.repository }}
-            Pull Request: ${{ github.event.pull_request.number }}
-            Branch: ${{ github.event.pull_request.head.ref }}
 
+          direct_prompt: |
             The Angular app is running at http://localhost:4200.
 
-            Run a happy-path UI validation with Playwright MCP:
+            Run a happy-path UI validation using Playwright MCP:
             1) Go to http://localhost:4200/character
-            2) Verify characters page loads
-            3) Verify at least one character card is visible
-            4) Click first "View Character" button
-            5) Verify detail view loads
+            2) Confirm the page loads
+            3) Check if character cards render
+            4) If cards exist, click the first "View Character"
+            5) Confirm the detail page loads
 
-            Create a short markdown report starting with:
+            Post EXACTLY ONE PR comment (no second comment, no todo list, no extra summary).
+            The comment must start with:
             <!-- ANGULAR_CLAUDE_QA -->
 
-            Claude QA started.
+            Format:
+            <!-- ANGULAR_CLAUDE_QA -->
+            ## 🤖 Claude QA – Playwright MCP
+            **Result:** PASS|FAIL|PARTIAL PASS
+            **Checked:** (3–6 bullets)
+            **Issues:** (only if any)
+            **Suggested fix:** (1–3 bullets)
 
-            Use:
-            gh pr comment ${{ github.event.pull_request.number }} --body "<!-- ANGULAR_CLAUDE_QA -->\nClaude QA started."
+            Use only:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<markdown>"
 
           mcp_config: |
             {
@@ -119,7 +123,7 @@ jobs:
                   "args": [
                     "@playwright/mcp@latest",
                     "--allowed-origins",
-                    "localhost:4200"
+                    "localhost:4200;fonts.googleapis.com;fonts.gstatic.com;rickandmortyapi.com"
                   ]
                 }
               }
@@ -128,6 +132,10 @@ jobs:
             Bash(gh pr comment:*),
             Bash(gh pr view:*),
             Bash(gh api:*),
+            Bash(*),
+            Bash(npm:*),
+            Bash(sqlite3:*),
             mcp__playwright__browser_navigate,
             mcp__playwright__browser_click,
-            mcp__playwright__browser_snapshot
+            mcp__playwright__browser_snapshot,
+            mcp__playwright__browser_console_messages        

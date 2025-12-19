@@ -25,16 +25,16 @@ export class CharacterDetailsComponent implements OnInit {
               private characterDetailsService: CharacterDetailsService) {
   }
 
-  ngOnInit() {
+  ngOnInit():any {
 
     const id = this.activatedRoute.snapshot.params.id;
-    this.subs = this.characterDetailsService.getCharacterById(id).subscribe(res => {
+    this.characterDetailsService.getCharacterById(id).subscribe(res => {
       this.character.next(res.body);
     });
 
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():any {
     this.subs?.unsubscribe();
   }
 
