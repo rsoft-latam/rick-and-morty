@@ -36,7 +36,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     this.rickAndMortyService.currentFilter().subscribe(res => {
       this.subs = this.rickAndMortyService.getCharacters(res).subscribe(
         res => this.items.next(res.body.results)
-      );
+      ); 
     });
 
   }
@@ -53,16 +53,16 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy():any {
-    this.subs?.unsubscribe();
+    
   }
 
-  previous() {
+  previous():any {
     const aux = this.rickAndMortyService.getFilter();
     aux.page = aux.page - 1
     aux.page > 0 ? this.rickAndMortyService.sendFilter(aux) : '';
   }
 
-  next() {
+  next():any {
     const aux = this.rickAndMortyService.getFilter();
     aux.page = aux.page + 1
     this.rickAndMortyService.sendFilter(aux);
