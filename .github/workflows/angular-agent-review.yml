@@ -97,48 +97,23 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
           direct_prompt: |
-            Repository: ${{ github.repository }}
-            Pull Request: ${{ github.event.pull_request.number }}
-            Branch: ${{ github.event.pull_request.head.ref }}
-
             The Angular app is running at http://localhost:4200.
 
-            Run a happy-path UI validation using Playwright MCP:
-            1) Navigate to http://localhost:4200/character
-            2) Verify the Characters page loads successfully
-            3) Verify that a list/grid of character cards is visible
-            4) Click the first available "View Character" button
-            5) Verify that the character detail view loads without errors
+            Run a happy-path UI validation with Playwright MCP:
+            1) Go to http://localhost:4200/character
+            2) Confirm the Characters page loads and at least one character card is visible
+            3) Click the first "View Character" button
+            4) Confirm the detail page loads (no errors)
 
-            Create a concise markdown report and WRITE it to a file named `claude_qa.md`
-            in the repository root.
-
-            The report MUST start with:
-            <!-- ANGULAR_CLAUDE_QA -->
-
-            Use this structure:
-
+            Post ONE markdown PR comment with:
             <!-- ANGULAR_CLAUDE_QA -->
             ## 🤖 Claude QA – Playwright MCP
-
             **Result:** PASS|FAIL
+            - What you checked (short)
+            - Any failure details + suggested fix (only if FAIL)
 
-            ### Steps Executed
-            - ...
-
-            ### Findings
-            - ...
-
-            ### Suggested Fixes (only if FAIL)
-            - ...
-
-            IMPORTANT:
-            - Do NOT post any PR comments yourself.
-            - Only generate `claude_qa.md`.
-
-            cat > claude_qa.md << 'EOF'
-            <PASTE THE FULL REPORT HERE>
-            EOF
+            Use:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<markdown>"
 
           mcp_config: |
             {
@@ -162,15 +137,4 @@ jobs:
             Bash(sqlite3:*),
             mcp__playwright__browser_snapshot,
             mcp__playwright__browser_click
-            mcp__playwright__browser_navigate
-      - name: Post Claude QA comment (guaranteed)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ ! -f claude_qa.md ]; then
-            echo "❌ claude_qa.md not found. Claude did not generate the report."
-            exit 1
-          fi
-    
-          echo "✅ claude_qa.md found. Posting PR comment..."
-          gh pr comment ${{ github.event.pull_request.number }} --body-file claude_qa.md            
+            mcp__playwright__browser_navigate        
