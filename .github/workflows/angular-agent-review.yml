@@ -85,6 +85,10 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_instructions: |
+            PR: ${{ github.event.pull_request.number }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.event.pull_request.head.ref }}
+          
             The Angular application is running at http://localhost:4200.
 
             This is a Rick and Morty characters app. Please perform a happy-path UI validation
@@ -105,7 +109,8 @@ jobs:
             - If FAIL, describe exactly what failed and suggest a fix
             - If PASS, confirm that the happy path works as expected
 
-            **Post the summary as a comment on the Pull Request using `gh pr comment`.**
+            Finally, post the summary as a PR comment by running:
+            gh pr comment ${{ github.event.pull_request.number }} --body "<paste your summary markdown here>"
 
           mcp_config: |
             {
@@ -120,4 +125,8 @@ jobs:
                 }
               }
             }
-          allowed_tools: "Bash(npm:*),Bash(sqlite3:*),Bash(gh pr comment:*),mcp__playwright__browser_snapshot,mcp__playwright__browser_click,..."
+          allowed_tools: >
+            Bash(gh pr comment:*),
+            mcp__playwright__browser_navigate,
+            mcp__playwright__browser_click,
+            mcp__playwright__browser_snapshot
