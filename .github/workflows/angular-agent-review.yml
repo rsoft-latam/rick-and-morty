@@ -38,6 +38,16 @@ jobs:
           echo "Payload generated:"
           jq '.files | length' payload.json
 
+          - name: Debug REVIEW_AGENT_URL presence
+          env:
+            REVIEW_AGENT_URL: ${{ secrets.REVIEW_AGENT_URL }}
+          run: |
+            if [ -z "$REVIEW_AGENT_URL" ]; then
+              echo "❌ REVIEW_AGENT_URL is EMPTY (secret not injected)"
+              exit 1
+            fi
+            echo "✅ REVIEW_AGENT_URL is set"    
+
       # 4️⃣ Llamar a tu Angular Review Agent (RAG + Pinecone)
       - name: Call Angular Review Agent
         env:
